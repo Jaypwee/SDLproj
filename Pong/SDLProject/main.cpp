@@ -27,12 +27,15 @@ GLuint pongTextureID;
 glm::vec3 movement = glm::vec3(0, 0, 0);
 glm::vec3 ball_position = glm::vec3(0, 0, 0);
 glm::vec3 ball_movement = glm::vec3(0, 0, 0);
-glm::vec3 left_paddle_position = glm::vec3(0, 0, 0);
+glm::vec3 left_paddle_position = glm::vec3(-9.25f, 0, 0);
 glm::vec3 left_paddle_movement = glm::vec3(0, 0, 0);
-glm::vec3 right_paddle_position = glm::vec3(0, 0, 0);
+glm::vec3 right_paddle_position = glm::vec3(9.25f, 0, 0);
 glm::vec3 right_paddle_movement = glm::vec3(0, 0, 0);
 
-float velocity = 5.0f;
+float velocity = 7.5f;
+float ballDimension = 0.25f;
+float paddleHeight = 4.5f;
+float paddleWidth = 0.25f;
 
 GLuint LoadTexture(const char* filePath) {
     int w, h, n;
@@ -70,8 +73,6 @@ void Initialize() {
     ballMatrix = glm::mat4(1.0f);
     leftPaddleMatrix = glm::mat4(1.0f);
     rightPaddleMatrix = glm::mat4(1.0f);
-    leftPaddleMatrix = glm::translate(leftPaddleMatrix, glm::vec3(-9.25f, 0.0f, 0.0f));
-    rightPaddleMatrix = glm::translate(rightPaddleMatrix, glm::vec3(9.25f, 0.0f, 0.0f));
     
     sunMatrix = glm::mat4(1.0f);
     sunMatrix = glm::scale(sunMatrix, glm::vec3(2.0f, 2.0f, 2.0f));
@@ -119,18 +120,21 @@ void ProcessInput() {
         }
     }
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
-    if (keys[SDL_SCANCODE_W]) {
-        left_paddle_movement.y = 1.0f;
+    if (gameStart) {
+        if (keys[SDL_SCANCODE_W]) {
+            left_paddle_movement.y = 1.0f;
+        }
+        else if (keys[SDL_SCANCODE_S]) {
+            left_paddle_movement.y = -1.0f;
+        }
+        if (keys[SDL_SCANCODE_UP]) {
+            right_paddle_movement.y = 1.0f;
+        }
+        else if (keys[SDL_SCANCODE_DOWN]) {
+            right_paddle_movement.y = -1.0f;
+        }
     }
-    else if (keys[SDL_SCANCODE_S]) {
-        left_paddle_movement.y = -1.0f;
-    }
-    if (keys[SDL_SCANCODE_UP]) {
-        right_paddle_movement.y = 1.0f;
-    }
-    else if (keys[SDL_SCANCODE_DOWN]) {
-        right_paddle_movement.y = -1.0f;
-    }
+    
 
 }
 int sunTicks = 0;
@@ -165,14 +169,48 @@ void Update() {
         ball_movement = glm::normalize(ball_movement);
     }
     
-    ball_position = ball_movement * velocity * deltaTime;
+    ballMatrix = glm::mat4(1.0f);
+    leftPaddleMatrix = glm::mat4(1.0f);
+    rightPaddleMatrix = glm::mat4(1.0f);
+    
+    ball_position += ball_movement * velocity * deltaTime;
+    if (ball_position.y > 7.5f - (ballDimension / 2)) {
+        movement.y = -1.0f;
+    } else if (ball_position.y < -7.5f + (ballDimension / 2)) {
+        movement.y = 1.0f;
+    }
+    if (ball_position.x > 9.125f) {
+        if ((right_paddle_position.y + (paddleHeight / 2) > ball_position.y) && (right_paddle_position.y - (paddleHeight / 2) < ball_position.y)) {
+            movement.x = -1.0f;
+        }
+    }
+    else if (ball_position.x < -9.125f) {
+        if ((left_paddle_position.y + (paddleHeight / 2) > ball_position.y) && (left_paddle_position.y - (paddleHeight / 2) < ball_position.y)){
+            movement.x = 1.0f;
+        }
+    }
+    
     ballMatrix = glm::translate(ballMatrix, ball_position);
 
-    left_paddle_position = left_paddle_movement * velocity * deltaTime;
+    if (ball_position.x < -9.3f || ball_position.x > 9.3f) {
+        gameStart = false;
+        ballMatrix = glm::mat4(1.0f);
+        ball_position = glm::vec3(0.0f);
+        ball_movement = glm::vec3(0.0f);
+        velocity = 7.0f;
+        left_paddle_position.y = 0.0f;
+        right_paddle_position.y = 0.0f;
+        left_paddle_movement.y = 0.0f;
+        right_paddle_movement.y = 0.0f;
+    }
+    left_paddle_position += left_paddle_movement * velocity * deltaTime;
     leftPaddleMatrix = glm::translate(leftPaddleMatrix, left_paddle_position);
     
-    right_paddle_position = right_paddle_movement * velocity * deltaTime;
+    right_paddle_position += right_paddle_movement * velocity * deltaTime;
     rightPaddleMatrix = glm::translate(rightPaddleMatrix, right_paddle_position);
+
+//    Game becomes faster and faster!
+    velocity *= 1.0001;
 }
 
 //void DrawEarth() {
