@@ -140,6 +140,8 @@ void Update() {
     if (gameStart) {
         ball_movement = movement;
         ball_movement = glm::normalize(ball_movement);
+        //    Game becomes faster and faster!
+        velocity *= 1.0005;
     }
     
     ballMatrix = glm::mat4(1.0f);
@@ -170,7 +172,7 @@ void Update() {
         ballMatrix = glm::mat4(1.0f);
         ball_position = glm::vec3(0.0f);
         ball_movement = glm::vec3(0.0f);
-        velocity = 7.0f;
+        velocity = 7.5f;
         left_paddle_position.y = 0.0f;
         right_paddle_position.y = 0.0f;
         left_paddle_movement.y = 0.0f;
@@ -181,9 +183,6 @@ void Update() {
     right_paddle_position += right_paddle_movement * velocity * deltaTime;
     rightPaddleMatrix = glm::translate(rightPaddleMatrix, right_paddle_position);
     
-
-//    Game becomes faster and faster!
-    velocity *= 1.0001;
 }
 
 void DrawBall() {
