@@ -274,9 +274,9 @@ void Update() {
     lastTicks = ticks;
     
     if (gameStart) {
-        state.player->acceleration = glm::vec3(0, -9.8f, 0);
+        state.player->acceleration = glm::vec3(0, -5.8f, 0);
         for (int i = 0; i < ENEMY_COUNT; i++) {
-            state.enemies[i].acceleration = glm::vec3(0, -9.81, 0);
+            state.enemies[i].acceleration = glm::vec3(0, -5.8f, 0);
         }
         state.enemies[1].speed = 1.0f;
         state.lasers[0].isActive = true;
