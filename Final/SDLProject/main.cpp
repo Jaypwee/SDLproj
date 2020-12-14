@@ -124,10 +124,10 @@ void ProcessInput() {
     
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
-    if (keys[SDL_SCANCODE_LEFT] && gameStart) {
+    if (keys[SDL_SCANCODE_LEFT] && gameStart && currentScene->state.player->position.x > 0.3f + leftBoundary) {
         currentScene->state.player->movement.x = -1.0f;
     }
-    else if (keys[SDL_SCANCODE_RIGHT] && gameStart) {
+    else if (keys[SDL_SCANCODE_RIGHT] && gameStart && currentScene->state.player->position.x < 9.7 + leftBoundary) {
         currentScene->state.player->movement.x = 1.0f;
     }
     if (keys[SDL_SCANCODE_UP] && gameStart) {
