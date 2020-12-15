@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6268FC5325887ACA00707D08 /* enemy.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6268FC5225887AC800707D08 /* enemy.png */; };
+		6268FC5725887B3A00707D08 /* font1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6268FC5625887B3400707D08 /* font1.png */; };
 		629A43E625691D6000E8F26E /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629A43E425691D6000E8F26E /* Map.cpp */; };
 		629A43F1256A94BC00E8F26E /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629A43EF256A94BC00E8F26E /* Scene.cpp */; };
 		629A43F5256AB44900E8F26E /* Level1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629A43F3256AB44900E8F26E /* Level1.cpp */; };
@@ -15,7 +16,6 @@
 		629A4403256AC39F00E8F26E /* MainMenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 629A4401256AC39F00E8F26E /* MainMenu.cpp */; };
 		62B014E8254EF5FB00B17ACE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B014E7254EF5FB00B17ACE /* main.cpp */; };
 		62B014EC254EF61900B17ACE /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62B014EA254EF61900B17ACE /* Entity.cpp */; };
-		62B01501255073C200B17ACE /* font1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62B01500255073BF00B17ACE /* font1.png */; };
 		62F89227258681F100B4B76B /* player.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8922525867E7C00B4B76B /* player.png */; };
 		62F89229258681F600B4B76B /* tilesheet.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8922425867A5000B4B76B /* tilesheet.png */; };
 		62F8923425886A9000B4B76B /* crash.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8923225886A8A00B4B76B /* crash.wav */; };
@@ -38,9 +38,9 @@
 			files = (
 				DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */,
 				62F89227258681F100B4B76B /* player.png in CopyFiles */,
-				62B01501255073C200B17ACE /* font1.png in CopyFiles */,
 				62F8923625886A9300B4B76B /* edm-music.mp3 in CopyFiles */,
 				62F8923425886A9000B4B76B /* crash.wav in CopyFiles */,
+				6268FC5725887B3A00707D08 /* font1.png in CopyFiles */,
 				6268FC5325887ACA00707D08 /* enemy.png in CopyFiles */,
 				62F89229258681F600B4B76B /* tilesheet.png in CopyFiles */,
 			);
@@ -50,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		6268FC5225887AC800707D08 /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemy.png; sourceTree = "<group>"; };
+		6268FC5625887B3400707D08 /* font1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font1.png; sourceTree = "<group>"; };
 		629A43E425691D6000E8F26E /* Map.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
 		629A43E525691D6000E8F26E /* Map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		629A43EF256A94BC00E8F26E /* Scene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -63,7 +64,6 @@
 		62B014E7254EF5FB00B17ACE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		62B014EA254EF61900B17ACE /* Entity.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
 		62B014EB254EF61900B17ACE /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		62B01500255073BF00B17ACE /* font1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = font1.png; path = ../../../CS3113/Assets/Fonts/font1.png; sourceTree = "<group>"; };
 		62F8922425867A5000B4B76B /* tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tilesheet.png; sourceTree = "<group>"; };
 		62F8922525867E7C00B4B76B /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		62F8923225886A8A00B4B76B /* crash.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crash.wav; sourceTree = "<group>"; };
@@ -130,10 +130,10 @@
 				629A4402256AC39F00E8F26E /* MainMenu.h */,
 				62B014EA254EF61900B17ACE /* Entity.cpp */,
 				62B014EB254EF61900B17ACE /* Entity.h */,
-				62B01500255073BF00B17ACE /* font1.png */,
 				62F8922525867E7C00B4B76B /* player.png */,
 				DBDF1B5B2323DE8D007CECB1 /* glm */,
 				DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */,
+				6268FC5625887B3400707D08 /* font1.png */,
 				DBDF1B592323DE8D007CECB1 /* ShaderProgram.h */,
 				6268FC5225887AC800707D08 /* enemy.png */,
 				62F8922425867A5000B4B76B /* tilesheet.png */,
