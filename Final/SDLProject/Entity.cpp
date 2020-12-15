@@ -6,6 +6,8 @@ Entity::Entity()
     movement = glm::vec3(0);
     velocity = glm::vec3(0);
     speed = 0;
+    width = 0.5f;
+    height = 0.5f;
     
     modelMatrix = glm::mat4(1.0f);
 }
@@ -29,11 +31,11 @@ void Entity::CheckCollisionY(Entity *objects, int objectCount) {
             if (velocity.y > 0) {
                 position.y -= penetrationY;
                 velocity.y = 0;
-                collidedTopEnemy = true;
+                collidedTop = true;
             } else if (velocity.y < 0) {
                 position.y += penetrationY;
                 velocity.y = 0;
-                collidedBotEnemy = true;
+                collidedBot = true;
                 if (object->entityType == ENEMY) {
                     object->isDead = true;
                     object->position = glm::vec3(20.0f, 20.0f, 0);
@@ -45,8 +47,6 @@ void Entity::CheckCollisionY(Entity *objects, int objectCount) {
 
 
 void Entity::CheckCollisionX(Entity *objects, int objectCount) {
-    collidedLeft = false;
-    collidedRight = false;
     for (int i = 0; i < objectCount; i++) {
         Entity *object = &objects[i];
         
@@ -66,7 +66,7 @@ void Entity::CheckCollisionX(Entity *objects, int objectCount) {
     }
 }
 
-void Entity::AIWalker() {
+void Entity::AIPatrol() {
     if (position.x < leftBound) {
         movement = glm::vec3(1,0,0);
     } else if (position.x > rightBound){
@@ -74,8 +74,37 @@ void Entity::AIWalker() {
     }
 }
 
+void Entity::AIPatrolY() {
+    if (position.y > leftBound) {
+        movement = glm::vec3(0,-1,0);
+    } else if (position.y < rightBound){
+        movement = glm::vec3(0,1,0);
+    }
+}
+
+void Entity::AISpeedo() {
+    if (position.x > rightBound && position.y > -1.1f) {
+        movement = glm::vec3(-1,0,0);
+    } else if (position.x < leftBound && position.y > -1.1f){
+        movement = glm::vec3(0,-1,0);
+    } else if (position.x < leftBound && position.y < -5.9f) {
+        movement = glm::vec3(1,0,0);
+    } else if (position.x > rightBound && position.y < -5.9f){
+        movement = glm::vec3(0,1,0);
+    }
+}
+
 void Entity::AI(Entity *player) {
-    switch(aiType) {}
+    switch(aiType) {
+        case PATROL:
+            AIPatrol();
+            break;
+        case YPATROL:
+            AIPatrolY();
+            break;
+        case SPEEDO:
+            AISpeedo();
+    }
 }
 
 void Entity::CheckCollisionsY(Map *map)
@@ -148,7 +177,7 @@ void Entity::CheckCollisionsX(Map *map)
 }
 
 #define SPEED_CONSTANT 0.4f
-void Entity::Update(float deltaTime, Entity *player, Entity *enemies, int enemyCount, Map *map)
+void Entity::Update(float deltaTime, Entity *player, Entity *enemies, int enemyCount, Map *map, Mix_Chunk *crashSound)
 {
     if (!isActive) return;
     
@@ -160,21 +189,18 @@ void Entity::Update(float deltaTime, Entity *player, Entity *enemies, int enemyC
     collidedBot = false;
     collidedRight = false;
     collidedLeft = false;
-    collidedBotEnemy = false;
     
     velocity = movement * speed;
-    velocity.x += SPEED_CONSTANT;
+    if (entityType == PLAYER && isActive) velocity.x += SPEED_CONSTANT;
     
     position.y += velocity.y * deltaTime; // Move on Y
     CheckCollisionsY(map);
     if (entityType == PLAYER) {
-        if (position.y < -8.5f) {
+        CheckCollisionY(enemies, enemyCount);
+        if (collidedBot || collidedTop) {
+            Mix_PlayChannel(-1, crashSound, 0);
             isDead = true;
             return;
-        }
-        CheckCollisionY(enemies, enemyCount);
-        if (collidedBotEnemy || collidedTopEnemy) {
-            isDead = true;
         }
     }
     
@@ -184,6 +210,7 @@ void Entity::Update(float deltaTime, Entity *player, Entity *enemies, int enemyC
     if (entityType == PLAYER) {
         CheckCollisionX(enemies, enemyCount);
         if (collidedRight || collidedLeft) {
+            Mix_PlayChannel(-1, crashSound, 0);
             isDead = true;
             return;
         }

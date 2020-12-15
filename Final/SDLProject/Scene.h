@@ -12,6 +12,7 @@
 #include "Util.h"
 #include "Entity.h"
 #include "Map.h"
+#include <SDL_mixer.h>
 
 struct GameState {
     Map *map;
@@ -23,6 +24,6 @@ class Scene {
 public:
     GameState state;
     virtual void Initialize() = 0;
-    virtual void Update(float deltaTime) = 0;
+    virtual void Update(float deltaTime, Mix_Chunk *crashSound) = 0;
     virtual void Render(ShaderProgram *program) = 0;
 };

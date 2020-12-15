@@ -17,6 +17,9 @@
 		62B01501255073C200B17ACE /* font1.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62B01500255073BF00B17ACE /* font1.png */; };
 		62F89227258681F100B4B76B /* player.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8922525867E7C00B4B76B /* player.png */; };
 		62F89229258681F600B4B76B /* tilesheet.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8922425867A5000B4B76B /* tilesheet.png */; };
+		62F892302587C66E00B4B76B /* enemy.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8922F2587C65C00B4B76B /* enemy.png */; };
+		62F8923425886A9000B4B76B /* crash.wav in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8923225886A8A00B4B76B /* crash.wav */; };
+		62F8923625886A9300B4B76B /* edm-music.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 62F8923325886A8A00B4B76B /* edm-music.mp3 */; };
 		DBDF1B5E2323DE8D007CECB1 /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */; };
 		DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = DBDF1B5C2323DE8D007CECB1 /* shaders */; };
 		DBDF1B632323DEDA007CECB1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDF1B622323DEDA007CECB1 /* OpenGL.framework */; };
@@ -36,6 +39,9 @@
 				DBDF1B612323DE9E007CECB1 /* shaders in CopyFiles */,
 				62F89227258681F100B4B76B /* player.png in CopyFiles */,
 				62B01501255073C200B17ACE /* font1.png in CopyFiles */,
+				62F892302587C66E00B4B76B /* enemy.png in CopyFiles */,
+				62F8923625886A9300B4B76B /* edm-music.mp3 in CopyFiles */,
+				62F8923425886A9000B4B76B /* crash.wav in CopyFiles */,
 				62F89229258681F600B4B76B /* tilesheet.png in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,6 +65,9 @@
 		62B01500255073BF00B17ACE /* font1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = font1.png; path = ../../../CS3113/Assets/Fonts/font1.png; sourceTree = "<group>"; };
 		62F8922425867A5000B4B76B /* tilesheet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tilesheet.png; sourceTree = "<group>"; };
 		62F8922525867E7C00B4B76B /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
+		62F8922F2587C65C00B4B76B /* enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = enemy.png; path = ../../../Downloads/kenney_spaceshooterextension/PNG/Sprites/Ships/enemy.png; sourceTree = "<group>"; };
+		62F8923225886A8A00B4B76B /* crash.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crash.wav; sourceTree = "<group>"; };
+		62F8923325886A8A00B4B76B /* edm-music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "edm-music.mp3"; sourceTree = "<group>"; };
 		DBDF1B4F2323DE3F007CECB1 /* SDLProject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDLProject; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDF1B592323DE8D007CECB1 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		DBDF1B5A2323DE8D007CECB1 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
@@ -127,6 +136,9 @@
 				DBDF1B5D2323DE8D007CECB1 /* ShaderProgram.cpp */,
 				DBDF1B592323DE8D007CECB1 /* ShaderProgram.h */,
 				62F8922425867A5000B4B76B /* tilesheet.png */,
+				62F8922F2587C65C00B4B76B /* enemy.png */,
+				62F8923225886A8A00B4B76B /* crash.wav */,
+				62F8923325886A8A00B4B76B /* edm-music.mp3 */,
 				DBDF1B5C2323DE8D007CECB1 /* shaders */,
 				DBDF1B5A2323DE8D007CECB1 /* stb_image.h */,
 			);

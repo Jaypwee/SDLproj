@@ -25,6 +25,7 @@
 SDL_Window* displayWindow;
 bool gameIsRunning = true;
 bool gameStart = false;
+bool gameOver = false;
 
 GLuint fontTextureID;
 
@@ -35,7 +36,7 @@ Scene *currentScene;
 Scene *sceneList[2];
 
 Mix_Music *music;
-Mix_Chunk *jumpSound;
+Mix_Chunk *crashSound;
 
 int life = 3;
 float leftBoundary = 0;
@@ -43,17 +44,18 @@ float leftBoundary = 0;
 void SwitchToScene(Scene *scene) {
     currentScene = scene;
     currentScene->Initialize();
+    leftBoundary = 0;
 }
 
 void Initialize() {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    displayWindow = SDL_CreateWindow("Platformer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+    displayWindow = SDL_CreateWindow("Galactica", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
     SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
     SDL_GL_MakeCurrent(displayWindow, context);
-    //Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    //music = Mix_LoadMUS("music.mp3");
-    //Mix_PlayMusic(music, -1);
-    //jumpSound = Mix_LoadWAV("jump.wav");
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+    music = Mix_LoadMUS("edm-music.mp3");
+    Mix_PlayMusic(music, -1);
+    crashSound = Mix_LoadWAV("crash.wav");
     
     
 #ifdef _WINDOWS
@@ -113,9 +115,10 @@ void ProcessInput() {
                     case SDLK_SPACE:
                         break;
                     case SDLK_RETURN:
-                        if (!gameStart) {
+                        if (!gameStart || gameOver) {
                             SwitchToScene(sceneList[1]);
                             gameStart = true;
+                            gameOver = false;
                         }
                 }
                 break; // SDL_KEYDOWN
@@ -124,16 +127,16 @@ void ProcessInput() {
     
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
 
-    if (keys[SDL_SCANCODE_LEFT] && gameStart && currentScene->state.player->position.x > 0.3f + leftBoundary) {
+    if (keys[SDL_SCANCODE_LEFT] && !gameOver && gameStart && currentScene->state.player->position.x > 0.3f + leftBoundary) {
         currentScene->state.player->movement.x = -1.0f;
     }
-    else if (keys[SDL_SCANCODE_RIGHT] && gameStart && currentScene->state.player->position.x < 9.7 + leftBoundary) {
+    else if (keys[SDL_SCANCODE_RIGHT] && !gameOver && gameStart && currentScene->state.player->position.x < 9.7 + leftBoundary) {
         currentScene->state.player->movement.x = 1.0f;
     }
-    if (keys[SDL_SCANCODE_UP] && gameStart) {
+    if (keys[SDL_SCANCODE_UP] && !gameOver && gameStart) {
         currentScene->state.player->movement.y = 1.0f;
     }
-    else if (keys[SDL_SCANCODE_DOWN] && gameStart) {
+    else if (keys[SDL_SCANCODE_DOWN] && !gameOver && gameStart) {
         currentScene->state.player->movement.y = -1.0f;
     }
     
@@ -164,10 +167,10 @@ void Update() {
 
     
     while (deltaTime >= FIXED_TIMESTEP) {
-        if (gameStart) {
+        if (gameStart && !gameOver) {
             leftBoundary += SPEED_CONSTANT * FIXED_TIMESTEP;
         }
-        currentScene->Update(FIXED_TIMESTEP);
+        currentScene->Update(FIXED_TIMESTEP, crashSound);
         
         deltaTime -= FIXED_TIMESTEP;
     }
@@ -195,7 +198,12 @@ void Update() {
     viewMatrix = glm::mat4(1.0f);
 
     if (gameStart) {
-        viewMatrix = glm::translate(viewMatrix, glm::vec3(-5 - leftBoundary, 3.75, 0));
+        if (leftBoundary < 70.5) {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-5 - leftBoundary, 3.75, 0));
+        } else {
+            viewMatrix = glm::translate(viewMatrix, glm::vec3(-75.5, 3.75, 0));
+        }
+        
     }
 
 }
@@ -207,7 +215,17 @@ void Render() {
     currentScene->Render(&program);
 
     if (gameStart && currentScene->state.player->isDead) {
-        
+        gameOver = true;
+        currentScene->state.player->isActive = false;
+        Util::DrawText(&program, fontTextureID, "You LOSE", 0.4f, 0.004f, glm::vec3(4 + leftBoundary, -2.75f, 0));
+        Util::DrawText(&program, fontTextureID, "Press Return To Try Again", 0.3f, 0.002f, glm::vec3(2 + leftBoundary,-4,0));
+    }
+    
+    else if (gameStart && currentScene->state.player->position.x > 78) {
+        gameOver = true;
+        currentScene->state.player->isActive = false;
+        Util::DrawText(&program, fontTextureID, "You WIN", 0.4f, 0.004f, glm::vec3(73, -2.75f, 0));
+        Util::DrawText(&program, fontTextureID, "Press Return To Try Again", 0.3f, 0.002f, glm::vec3(71.5,-4,0));
     }
     
     SDL_GL_SwapWindow(displayWindow);

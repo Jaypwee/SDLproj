@@ -12,10 +12,11 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
 #include "Map.h"
+#include <SDL_mixer.h>
 
 enum EntityType { PLAYER, PLATFORM, ENEMY, LASER };
 
-enum AIType { WALKER, JUMPER, SHOOTER };
+enum AIType { PATROL, YPATROL, SPEEDO };
 
 class Entity {
 public:
@@ -45,8 +46,6 @@ public:
     bool collidedBot = false;
     bool collidedLeft = false;
     bool collidedRight = false;
-    bool collidedBotEnemy = false;
-    bool collidedTopEnemy = false;
     
     Entity();
     
@@ -55,11 +54,12 @@ public:
     void CheckCollisionY(Entity *objects, int objectCount);
     void CheckCollisionsX(Map *map);
     void CheckCollisionsY(Map *map);
-    void Update(float deltaTime, Entity *player, Entity *enemies, int enemyCount, Map *map);
+    void Update(float deltaTime, Entity *player, Entity *enemies, int enemyCount, Map *map, Mix_Chunk *crashSound);
     void Render(ShaderProgram *program);
     void DrawSpriteFromTextureAtlas(ShaderProgram *program, GLuint textureID, int index);
     
     void AI(Entity *player);
-    void AIWalker();
-    void AIJumper();
+    void AIPatrol();
+    void AIPatrolY();
+    void AISpeedo();
 };
